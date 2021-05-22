@@ -1,13 +1,14 @@
-import React from 'react';
-import {Col, Row, Container} from 'reactstrap';
+import React, {Component} from 'react';
+import {Col, Row, Container, Button} from 'reactstrap';
 import styled from 'styled-components';
 
 import Header from '../header';
 import RandomChar from '../randomChar';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
+import ErrorMessage from '../errorMessage';
 
-export const HeaderStyled = styled.div`
+const HeaderStyled = styled.div`
     a, a:visited {
 	    color: #fff;
     }
@@ -17,32 +18,65 @@ export const HeaderStyled = styled.div`
     }
 `;
 
+const ToggleButtonStyled = styled(Button)`
 
-const App = () => {
-    return (
-        <> 
-            <Container>
-                <HeaderStyled>
-                    <Header />
-                </HeaderStyled>
-            </Container>
-            <Container>
-                <Row>
-                    <Col lg={{size: 5, offset: 0}}>
-                        <RandomChar/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md='6'>
-                        <ItemList />
-                    </Col>
-                    <Col md='6'>
-                        <CharDetails />
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    );
+        margin-bottom: 40px;
+`;
+
+
+export default class App extends Component{
+
+    state = {
+        showRandomChar: true,
+        error: false
+    }
+
+    toggleRandomChar = () => {
+        this.setState((state) => {
+            return {
+            showRandomChar: !state.showRandomChar
+            }
+        });
+    }
+
+    render() {
+
+        if(this.state.error) {
+            return <ErrorMessage/>;
+        }
+
+        const {showRandomChar} = this.state;
+        const randomChar = showRandomChar ? <RandomChar/> : null; 
+
+        return (
+            <> 
+                <Container>
+                    <HeaderStyled>
+                        <Header />
+                    </HeaderStyled>
+                </Container>
+                <Container>
+                    <Row>
+                        <Col lg={{size: 5, offset: 0}}>
+                            {randomChar}
+                            <ToggleButtonStyled 
+                                className="toggle-btn"
+                                onClick={this.toggleRandomChar}
+                            >
+                            Toggle random character
+                            </ToggleButtonStyled>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md='6'>
+                            <ItemList />
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails />
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+        );
+    }
 };
-
-export default App;
