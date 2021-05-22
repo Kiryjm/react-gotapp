@@ -14,22 +14,71 @@ export default class GotService {
 		return await res.json();
 	};
 
-	getAllCharacters() {
-		return this.getResource("/characters?page=5&pageSize=10");
+	async getAllCharacters() {
+		const res = await this.getResource("/characters?page=5&pageSize=10");
+		return res.map(this._transformCharacter);
 	}
-	getCharacter(id) {
-		return this.getResource(`/characters/${id}`);
+
+	async getCharacter(id) {
+		const res = await this.getResource(`/characters/${id}`);
+		return this._transformCharacter(res);
 	}
-	getAllBooks() {
-		return this.getResource(`/books/`);
+
+	async getAllBooks() {
+		const res = await this.getResource(`/books/`);
+		return res.map(this._transformCharacter);
 	}
-	getBook(id) {
-		return this.getResource(`/books/${id}`);
+
+	async getBook(id) {
+		const res = await this.getResource(`/books/${id}`);
+		return res.map(this._transformCharacter);
 	}
-	getAllHouses() {
-		return this.getResource(`/houses/`);
+
+	async getAllHouses() {
+		const res = await this.getResource(`/houses/`);
+		return res.map(this._transformCharacter);
 	}
-	getHouse(id) {
-		return this.getResource(`/houses/${id}`);
+
+	async getHouse(id) {
+		const res = await this.getResource(`/houses/${id}`);
+		return res.map(this._transformCharacter);
 	}
+
+	isSetData(data) {
+		if(data) {
+			return data;
+		} else {
+			return '—';
+		}
+	}
+
+	_transformCharacter(char) {
+		return {
+			name: this.isSetData(char.name),
+			gender: this.isSetData(char.gender),
+			born: this.isSetData(char.born),
+			died: this.isSetData(char.died),
+			culture: this.isSetData(char.culture)
+		}
+	}
+
+	_transformHouse(house) {
+        return {
+            name: this.isSetData(house.name),
+            region: this.isSetData(house.region),
+            words: this.isSetData(house.words),
+            titles: this.isSetData(house.titles),
+            overlord: this.isSetData(house.overlord),
+            ancestralWeapons: this.isSetData(house.ancestralWeapons)
+        };
+    }
+    
+    _transformBook(book) {
+        return {
+            name: this.isSetData(book.name),
+            numberOfPages: this.isSetData(book.numberOfPages),
+            publiser: this.isSetData(book.publiser),
+            released: this.isSetData(book.released)
+        };
+    }
 }

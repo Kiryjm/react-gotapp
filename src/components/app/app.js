@@ -7,20 +7,12 @@ import RandomChar from '../randomChar';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
 
-const HeaderStyled = styled.div`
-    a {
+export const HeaderStyled = styled.div`
+    a, a:visited {
 	    color: #fff;
     }
-    a:visited {
-	    color: #fff;
-    }
-    a:hover {
-	    color: #7493A4;
-    }
-    a:focus {
-	    color: #7493A4;
-    }
-    a:active {
+
+    a:hover, a:focus, a:active{
 	    color: #7493A4;
     }
 `;
