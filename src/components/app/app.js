@@ -4,8 +4,7 @@ import styled from 'styled-components';
 
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import CharacterPage from '../characterPage';
 import ErrorMessage from '../errorMessage';
 
 const HeaderStyled = styled.div`
@@ -19,7 +18,6 @@ const HeaderStyled = styled.div`
 `;
 
 const ToggleButtonStyled = styled(Button)`
-
         margin-bottom: 40px;
 `;
 
@@ -28,7 +26,15 @@ export default class App extends Component{
 
     state = {
         showRandomChar: true,
+        selectedChar: 130,
         error: false
+    }
+
+    componentDidCatch() {
+        console.log('error');
+        this.setState({
+            error: true
+        });
     }
 
     toggleRandomChar = () => {
@@ -67,14 +73,7 @@ export default class App extends Component{
                             </ToggleButtonStyled>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
                 </Container>
             </>
         );
