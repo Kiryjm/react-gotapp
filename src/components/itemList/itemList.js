@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import {ListGroupItem} from 'reactstrap';
 import gotService from '../../services/gotService';
 import Spinner from '../spinner';
+import ErrorMessage from '../errorMessage';
+import { RandomCharStyled } from '../randomChar/randomChar';
+
 
 const ListGroupStyled = styled.div`
     cursor: pointer;
@@ -13,7 +16,8 @@ export default class ItemList extends Component {
     gotService = new gotService();
 
     state = {
-        charList: null
+        charList: null,
+        error: false
     }
 
     componentDidMount() {
@@ -22,16 +26,26 @@ export default class ItemList extends Component {
                 this.setState({
                     charList
                 });
-            });
+            })
+            .catch(this.onError);
+    }
+
+    onError = () => {
+        this.setState({
+            charList: null,
+            error: true
+        });
     }
 
     getItemList(arr) {
-        return arr.map((item, index) => {
+        return arr.map(item => {
+            const id = +item.url.match(/\d+$/);
+
             return (
                 <ListGroupItem
-                    key={index}
+                    key={id}
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(41 + index)}
+                    onClick={() => this.props.onCharSelected(id)}
                 >
                 {item.name}
                 </ListGroupItem>
@@ -41,10 +55,18 @@ export default class ItemList extends Component {
 
     render() {
 
+        if (!this.state.charList && this.state.error) {
+            return <ErrorMessage/>
+        } 
+
         const{charList} = this.state;
 
         if(!charList) {
-            return <Spinner/>
+            return (
+                <RandomCharStyled className="rounded">
+                    <Spinner/>
+                </RandomCharStyled>
+            )
         }
 
         const items = this.getItemList(charList);

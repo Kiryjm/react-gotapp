@@ -44,7 +44,7 @@ export default class RandomChar extends Component {
         });
     }
 
-    onError = (err) => {
+    onError = () => {
         this.setState({
             error: true,
             loading: false
@@ -60,7 +60,6 @@ export default class RandomChar extends Component {
 
 
     render() {
-        console.log('render');
 
         const { char, loading, error } = this.state;
 

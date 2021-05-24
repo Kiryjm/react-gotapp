@@ -17,7 +17,7 @@ const ErrorMessage = () => {
 	return (
 	<ErrorStyled>
 		<img src={'/img/error.jpg'} alt='error'></img>
-		<span>Something goes wrong</span>
+		<span>Something goes wrong...</span>
 	</ErrorStyled>	
 	)
 }
