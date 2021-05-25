@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 import Header from '../header';
 import RandomChar from '../randomChar';
-import CharacterPage from '../characterPage';
+import CharacterPage from '../pages/characterPage';
+import BooksPage from '../pages/booksPage';
+import HousesPage from '../pages/housesPage';
 import ErrorMessage from '../errorMessage';
 import ItemList from '../itemList';
 import ItemDetails from '../itemDetails';
@@ -80,6 +82,8 @@ export default class App extends Component{
                         </Col>
                     </Row>
                     <CharacterPage/>
+                    <BooksPage/>
+                    <HousesPage/>
                     {/* <Row>
 				        <Col md='6'>
 					        <ItemList 

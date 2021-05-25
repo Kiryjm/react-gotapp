@@ -45,11 +45,17 @@ export default class GotService {
 	}
 
 	isSetData(data) {
-		if(data) {
+		if( typeof(data) === ('number' || 'boolean' || 'symbol' || 'bigint') ) {
 			return data;
-		} else {
-			return '—';
+		} 
+		if (typeof(data) === 'string') {
+			return data === '' ? '—' : data;
 		}
+		if (typeof(data) === 'object') {
+			const str = data.join();
+			return str === '' ? '—' : data;
+		}
+		return '—';
 	}
 
 	_getId = (item) => {
@@ -84,7 +90,7 @@ export default class GotService {
 			id: this._getId(book),
             name: this.isSetData(book.name),
             numberOfPages: this.isSetData(book.numberOfPages),
-            publiser: this.isSetData(book.publiser),
+            publisher: this.isSetData(book.publisher),
             released: this.isSetData(book.released)
         };
     }

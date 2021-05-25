@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import gotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 import { RandomCharStyled } from '../randomChar/randomChar';
@@ -43,8 +42,6 @@ export {Field}
 
 export default class ItemDetails extends Component {
 
-    gotService = new gotService();
-
     state = {
         item: null,
         loading: true,
@@ -69,7 +66,7 @@ export default class ItemDetails extends Component {
     }
 
     updateItem() {
-        const {itemId} = this.props;
+        const {itemId, getData} = this.props;
         if (!itemId) {
             return;
         }
@@ -78,7 +75,7 @@ export default class ItemDetails extends Component {
             loading: true
         })
 
-        this.gotService.getCharacter(itemId)
+        getData(itemId)
             .then(this.onItemDetailsLoaded)
             .catch(this.onError);
     }
