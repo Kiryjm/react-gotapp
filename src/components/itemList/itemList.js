@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import {ListGroupItem} from 'reactstrap';
-import gotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 import { RandomCharStyled } from '../randomChar/randomChar';
@@ -13,18 +12,18 @@ const ListGroupStyled = styled.div`
 
 export default class ItemList extends Component {
 
-    gotService = new gotService();
-
     state = {
-        charList: null,
+        itemList: null,
         error: false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then( charList => {
+        const {getData} = this.props;
+
+        getData()
+            .then( itemList => {
                 this.setState({
-                    charList
+                    itemList
                 });
             })
             .catch(this.onError);
@@ -32,22 +31,23 @@ export default class ItemList extends Component {
 
     onError = () => {
         this.setState({
-            charList: null,
+            itemList: null,
             error: true
         });
     }
 
     getItemList(arr) {
         return arr.map(item => {
-            const id = +item.url.match(/\d+$/);
-
+            const {id} = item;
+            const label = this.props.renderItem(item);
+            
             return (
                 <ListGroupItem
                     key={id}
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(id)}
+                    onClick={() => this.props.onItemSelected(id)}
                 >
-                {item.name}
+                {label}
                 </ListGroupItem>
             )
         });
@@ -55,13 +55,13 @@ export default class ItemList extends Component {
 
     render() {
 
-        if (!this.state.charList && this.state.error) {
+        if (!this.state.itemList && this.state.error) {
             return <ErrorMessage/>
         } 
 
-        const{charList} = this.state;
+        const{itemList} = this.state;
 
-        if(!charList) {
+        if(!itemList) {
             return (
                 <RandomCharStyled className="rounded">
                     <Spinner/>
@@ -69,7 +69,7 @@ export default class ItemList extends Component {
             )
         }
 
-        const items = this.getItemList(charList);
+        const items = this.getItemList(itemList);
 
         return (
             <ListGroupStyled>

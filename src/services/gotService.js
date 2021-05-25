@@ -4,7 +4,7 @@ export default class GotService {
 		this._apiBase = 'https://www.anapioficeandfire.com/api';
 	}
 
-	async getResource(url) {
+	getResource = async (url) => {
 		const res = await fetch(`${this._apiBase}${url}`);
 
 		if (!res.ok) {
@@ -14,32 +14,32 @@ export default class GotService {
 		return await res.json();
 	};
 
-	async getAllCharacters() {
+	getAllCharacters = async () => {
 		const res = await this.getResource("/characters?page=4&pageSize=10");
 		return res.map(this._transformCharacter);
 	}
 
-	async getCharacter(id) {
+	getCharacter = async (id) => {
 		const res = await this.getResource(`/characters/${id}`);
 		return this._transformCharacter(res);
 	}
 
-	async getAllBooks() {
+	getAllBooks = async () => {
 		const res = await this.getResource(`/books/`);
 		return res.map(this._transformBook);
 	}
 
-	async getBook(id) {
+	getBook = async (id) => {
 		const res = await this.getResource(`/books/${id}`);
 		return this._transformBook(res);
 	}
 
-	async getAllHouses() {
+	getAllHouses = async () => {
 		const res = await this.getResource(`/houses/`);
 		return res.map(this._transformHouse);
 	}
 
-	async getHouse(id) {
+	getHouse = async (id) => {
 		const res = await this.getResource(`/houses/${id}`);
 		return this._transformHouse(res);
 	}
@@ -52,10 +52,13 @@ export default class GotService {
 		}
 	}
 
+	_getId = (item) => {
+		return +item.url.match(/\d+$/);
+	}
+
 	_transformCharacter = (char) => {
-		console.log(char);
 		return {
-			url: this.isSetData(char.url),
+			id: this._getId(char),
 			name: this.isSetData(char.name),
 			gender: this.isSetData(char.gender),
 			born: this.isSetData(char.born),
@@ -66,6 +69,7 @@ export default class GotService {
 
 	_transformHouse = (house) => {
         return {
+			id: this._getId(house),
             name: this.isSetData(house.name),
             region: this.isSetData(house.region),
             words: this.isSetData(house.words),
@@ -77,6 +81,7 @@ export default class GotService {
     
     _transformBook = (book) => {
         return {
+			id: this._getId(book),
             name: this.isSetData(book.name),
             numberOfPages: this.isSetData(book.numberOfPages),
             publiser: this.isSetData(book.publiser),

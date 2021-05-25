@@ -7,7 +7,7 @@ import ErrorMessage from '../errorMessage';
 import { RandomCharStyled } from '../randomChar/randomChar';
 
 
-const CharDetailsStyled = styled.div`
+const ItemDetailsStyled = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
     margin-bottom: 40px;
@@ -29,37 +29,48 @@ export const ErrorStyled = styled.span`
 `;
 
 
+const Field = ({item, field, label}) => {
+    return (
+        <ListGroupItem className="d-flex justify-content-between">
+            <Term>{label}</Term>
+            <span>{item[field]}</span>
+        </ListGroupItem>
+    )
+}
 
-export default class CharDetails extends Component {
+export {Field}
+
+
+export default class ItemDetails extends Component {
 
     gotService = new gotService();
 
     state = {
-        char: null,
+        item: null,
         loading: true,
         error: false
     }
 
     componentDidMount() {
-        this.updateChar();
+        this.updateItem();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar();
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem();
         }
     }
 
-    onCharDetailsLoaded = (char) => {
+    onItemDetailsLoaded = (item) => {
         this.setState({
-            char,
+            item,
             loading: false
         });
     }
 
-    updateChar() {
-        const {charId} = this.props;
-        if (!charId) {
+    updateItem() {
+        const {itemId} = this.props;
+        if (!itemId) {
             return;
         }
 
@@ -67,28 +78,29 @@ export default class CharDetails extends Component {
             loading: true
         })
 
-        this.gotService.getCharacter(charId)
-            .then(this.onCharDetailsLoaded)
+        this.gotService.getCharacter(itemId)
+            .then(this.onItemDetailsLoaded)
             .catch(this.onError);
     }
 
     onError = () => {
         this.setState({
-            char: null,
+            item: null,
             error: true
         });
     }
 
     
     render() {
-        if (!this.state.char && this.state.error) {
+        if (!this.state.item && this.state.error) {
             return <ErrorMessage/>
-        } else if (!this.state.char) {
+        } else if (!this.state.item) {
             return <ErrorStyled className='select-error'>Please, select a character</ErrorStyled>
         }
 
 
-        const {name, gender, born, died, culture} = this.state.char;
+        const {item} = this.state;
+        const {name} = item;
 
         if (this.state.loading) {
             return (
@@ -99,27 +111,16 @@ export default class CharDetails extends Component {
         }
 
         return (
-            <CharDetailsStyled className="rounded">
+            <ItemDetailsStyled className="rounded">
                  <HeaderStyled>{name}</HeaderStyled>
                 <ListGroup className="list-group-flush">
-                    <ListGroupItem className="d-flex justify-content-between">
-                        <Term>Gender</Term>
-                        <span>{gender}</span>
-                    </ListGroupItem>
-                    <ListGroupItem className="d-flex justify-content-between">
-                        <Term>Born</Term>
-                        <span>{born}</span>
-                    </ListGroupItem>
-                    <ListGroupItem className="d-flex justify-content-between">
-                        <Term>Died</Term>
-                        <span>{died}</span>
-                    </ListGroupItem>
-                    <ListGroupItem className="d-flex justify-content-between">
-                        <Term>Culture</Term>
-                        <span>{culture}</span>
-                    </ListGroupItem>
+                   {
+                       React.Children.map(this.props.children, (child) => {
+                           return React.cloneElement(child, {item});
+                       })
+                   }
                 </ListGroup>
-            </CharDetailsStyled>
+            </ItemDetailsStyled>
         );
     }
 }

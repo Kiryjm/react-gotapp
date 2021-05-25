@@ -6,6 +6,10 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import CharacterPage from '../characterPage';
 import ErrorMessage from '../errorMessage';
+import ItemList from '../itemList';
+import ItemDetails from '../itemDetails';
+import gotService from '../../services/gotService';
+
 
 const HeaderStyled = styled.div`
     a, a:visited {
@@ -23,6 +27,8 @@ const ToggleButtonStyled = styled(Button)`
 
 
 export default class App extends Component{
+
+    gotService = new gotService();
 
     state = {
         showRandomChar: true,
@@ -74,6 +80,30 @@ export default class App extends Component{
                         </Col>
                     </Row>
                     <CharacterPage/>
+                    {/* <Row>
+				        <Col md='6'>
+					        <ItemList 
+                                onItemSelected={this.onItemSelected}
+                                getData={this.gotService.getAllBooks}
+                                renderItem={(item) => item.name}
+                            />
+				        </Col>
+				        <Col md='6'>
+					        <ItemDetails itemId={this.state.selectedChar}/>
+				        </Col>
+                    </Row>
+                    <Row>
+				        <Col md='6'>
+					        <ItemList 
+                                onItemSelected={this.onItemSelected}
+                                getData={this.gotService.getAllHouses}
+                                renderItem={(item) => item.name}
+                            />
+				        </Col>
+				        <Col md='6'>
+					        <ItemDetails itemId={this.state.selectedChar}/>
+				        </Col>
+                    </Row> */}
                 </Container>
             </>
         );
