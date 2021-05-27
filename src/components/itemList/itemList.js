@@ -8,6 +8,16 @@ import { RandomCharStyled } from '../randomChar/randomChar';
 
 const ListGroupStyled = styled.div`
     cursor: pointer;
+    font-family: 'GoT';
+    letter-spacing: 2px;
+    word-spacing: 2px;
+
+    @font-face {
+		font-family: 'GoT';
+		src: url('/fonts/GameOfThrones.ttf');
+		font-style: normal;
+		font-weight: normal;
+	}
 `;
 
 export default class ItemList extends Component {

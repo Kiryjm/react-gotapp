@@ -11,6 +11,16 @@ export const RandomCharStyled = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
     margin-bottom: 40px;
+    font-family: 'GoT';
+    letter-spacing: 2px;
+    word-spacing: 2px;
+
+    @font-face {
+		font-family: 'GoT';
+		src: url('/fonts/GameOfThrones.ttf');
+		font-style: normal;
+		font-weight: normal;
+	}
 `;
 
 const HeaderStyled = styled.h4`

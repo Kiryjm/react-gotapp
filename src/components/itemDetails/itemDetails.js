@@ -10,9 +10,25 @@ const ItemDetailsStyled = styled.div`
     background-color: #fff;
     padding: 25px 25px 15px 25px;
     margin-bottom: 40px;
+
+    .list-group-flush {
+		font-family: 'GoT';
+        letter-spacing: 2px;
+        word-spacing: 2px;
+    }
+
+    @font-face {
+		font-family: 'GoT';
+		src: url('/fonts/GameOfThrones.ttf');
+		font-style: normal;
+		font-weight: normal;
+	}
 `;
 
 const HeaderStyled = styled.h4`
+	font-family: 'GoT';
+    letter-spacing: 2px;
+    word-spacing: 2px;
     margin-bottom: 20px;
     text-align: center;
 `;
@@ -25,6 +41,9 @@ export const ErrorStyled = styled.span`
     color: #fff;
     text-align: center;
     font-size: 26px;
+    font-family: 'GoT';
+    letter-spacing: 2px;
+    word-spacing: 2px;
 `;
 
 
@@ -92,7 +111,7 @@ export default class ItemDetails extends Component {
         if (!this.state.item && this.state.error) {
             return <ErrorMessage/>
         } else if (!this.state.item) {
-            return <ErrorStyled className='select-error'>Please, select a character</ErrorStyled>
+            return <ErrorStyled className='select-error'>Please, select an item</ErrorStyled>
         }
 
 

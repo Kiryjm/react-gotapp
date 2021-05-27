@@ -1,11 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const HeaderBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 80px;
+    font-family: 'GoT';
+    letter-spacing: 2px;
+    word-spacing: 2px;
+
+    @font-face {
+		font-family: 'GoT';
+		src: url('/fonts/GameOfThrones.ttf');
+		font-style: normal;
+		font-weight: normal;
+	}
 `;
 
 const HeaderTitle = styled.h3`
@@ -31,19 +42,19 @@ const Header = () => {
     return (
         <HeaderBlock>
             <HeaderTitle>
-                <a href="index">
+                <Link to="/">
                 Game of Thrones DB
-                </a>
+                </Link>
             </HeaderTitle>
             <HeaderLinks>
                 <li>
-                    <a href="https://www.anapioficeandfire.com/api/characters">Characters</a>
+                    <Link to="/characters/">Characters</Link>
                 </li>
                 <li>
-                    <a href="https://www.anapioficeandfire.com/api/houses">Houses</a>
+                    <Link to="/houses/">Houses</Link>
                 </li>
                 <li>
-                    <a href="https://www.anapioficeandfire.com/api/books">Books</a>   
+                    <Link to="/books/">Books</Link>   
                 </li>
             </HeaderLinks>
         </HeaderBlock>
