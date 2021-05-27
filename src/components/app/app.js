@@ -9,9 +9,11 @@ import BooksPage from '../pages/booksPage';
 import HousesPage from '../pages/housesPage';
 import ErrorMessage from '../errorMessage';
 import gotService from '../../services/gotService';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import BooksItem from '../pages/booksItem';
 import StartPage from '../pages/startPage';
+import NotFound from '../NotFound';
+
 
 
 const HeaderStyled = styled.div`
@@ -39,7 +41,6 @@ const ToggleButtonStyled = styled(Button)`
 `;
 
 
-
 export default class App extends Component{
 
     gotService = new gotService();
@@ -47,7 +48,7 @@ export default class App extends Component{
     state = {
         showRandomChar: false,
         selectedChar: null,
-        error: false
+        error: false,
     }
 
     componentDidCatch() {
@@ -75,7 +76,7 @@ export default class App extends Component{
         const randomChar = showRandomChar ? <RandomChar/> : null; 
 
         return (
-            <Router>
+                <Router>
                 <div> 
                     <Container>
                         <HeaderStyled>
@@ -94,20 +95,24 @@ export default class App extends Component{
                                 </ToggleButtonStyled>
                             </Col>
                         </Row>
-
-                        <Route path='/' exact component={StartPage}/>
-                        <Route path='/characters' component={CharacterPage} />
-                        <Route path='/books' exact component={BooksPage} />
-                        <Route path='/houses' component={HousesPage} />
-                        <Route path='/books/:id' render={
-                            ({match}) => {
-                                const {id} = match.params;
-                                
-                           return <BooksItem bookId={id}/>}
-                        } />
+                        <Switch>
+                            <Route exact path='/' component={StartPage}/>
+                            <Route exact path='/characters' component={CharacterPage} />
+                            <Route exact path='/books' component={BooksPage} />
+                            <Route exact path='/houses' component={HousesPage} />
+                            <Route exact path='/books/:id' render={
+                                ({match}) => {
+                                    const {id} = match.params;
+                                    
+                            return <BooksItem bookId={id}/>}
+                            } />
+                            <Route component={NotFound} />
+                        </Switch>
                     </Container>
                 </div>
             </Router>
         );
     }
 };
+
+export {ToggleButtonStyled};

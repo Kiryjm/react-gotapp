@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const StartPageStyled = styled.div`
 		
-
 	h1 {
 		color: #fff;
 		font-family: 'GoT';
@@ -28,17 +27,14 @@ const StartPageStyled = styled.div`
 		100% {
 			opacity: 1;
 		}
-}
-
+	}
 
 	@font-face {
 		font-family: 'GoT';
 		src: url('/fonts/GameOfThrones.ttf');
 		font-style: normal;
 		font-weight: normal;
-		}
-
-
+	}
 `;
 
 
@@ -49,7 +45,6 @@ const StartPage = () => {
 				Game of Thrones
 			<p>Database</p>
 			</h1>
-			
 		</StartPageStyled>
     );
 };
